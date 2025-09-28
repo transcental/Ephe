@@ -40,6 +40,8 @@ public class LevelManager : MonoBehaviour
     private List<BeatData> _beats;
     private AudioSource _audioSource;
     private AudioSource _audioSource1;
+    private bool _hasStartedLevel = false;
+
 
 
     private void Awake()
@@ -97,20 +99,26 @@ public class LevelManager : MonoBehaviour
         _playing = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        Debug.Log("Updating");
         if (!_playing && !_gameManager.IsPaused) { return; }
-
-        if (!_song || _gameManager.IsPlaying) return;
-        if (!_audioSource)
+        if (!_hasStartedLevel)
         {
-            _audioSource = _audioSource1;
+            StartLevelPlay();
+            _hasStartedLevel = true;
         }
+    }
+    
+    private void StartLevelPlay()
+    {
+        if (!_song || !_audioSource) return;
+
         _audioSource.clip = _song;
         _audioSource.Play();
         _gameManager.IsPlaying = true;
         Debug.Log("LevelManager: Started playing music.");
-        
+
         StartCoroutine(SpawnBeats());
     }
     
@@ -139,6 +147,7 @@ public class LevelManager : MonoBehaviour
     
     private void SpawnBeat(BeatmapDataItem beat)
     {
+        Debug.Log("LevelManager: Spawning beat...");
         GameObject spawner = beat.type == "top" ? topBeatSpawner : bottomBeatSpawner;
         GameObject cannon = beat.type == "top" ? topCannon : bottomCannon;
 
@@ -158,18 +167,21 @@ public class LevelManager : MonoBehaviour
         }
 
         var beatObject = Instantiate(spawner, spawner.transform.position, spawner.transform.rotation);
-        
+
         var beatRenderer = beatObject.GetComponent<Renderer>();
         if (beatRenderer)
         {
             beatRenderer.material = beatData.material;
         }
-        
         else
         {
             Debug.LogError("LevelManager: Beat component not found on spawned object.");
         }
+
+        var mover = beatObject.AddComponent<BeatMover>();
+        mover.Init(beat.direction, _song.length);
     }
+
     
     public void AdjustScore(int amount)
     {
