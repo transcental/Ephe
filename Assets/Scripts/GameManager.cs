@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class BeatmapData
 {
-    public Sprite sprite;
+    public Material material;
     public float rarity;
     public bool healing;
     public bool damaging;
@@ -28,4 +29,35 @@ public class GameManager : MonoBehaviour
     public bool IsPaused { get; } = false;
     public bool IsPlaying { get; } = false;
     [SerializeField] private List<LevelData> levels;
+
+    private void Awake()
+    {
+        var objs = GameObject.FindGameObjectsWithTag($"Manager");
+
+        if (objs.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+    }
+    
+    private void StartLevel(int levelIndex)
+    {
+        if (levelIndex < 0 || levelIndex >= levels.Count)
+        {
+            Debug.LogError("Invalid level index");
+            return;
+        }
+
+        var level = levels[levelIndex];
+        // Load level data and initialize the game state
+        Debug.Log($"Starting level: {level.levelName} with difficulty {level.difficulty}");
+
+        SceneManager.LoadScene("Level");
+        Debug.Log("Scene loaded");
+        // Additional initialization code here
+        
+        
+    }
 }
