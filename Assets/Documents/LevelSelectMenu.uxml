@@ -1,4 +1,4 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Label text="Level Select" style="align-content: center; align-self: center; font-size: 30px; height: 56px; width: 66px;" />
-    <ui:MultiColumnListView name="LevelSelectList" />
+    <ui:ListView name="LevelSelectList" />
 </ui:UXML>

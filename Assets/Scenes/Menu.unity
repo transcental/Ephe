@@ -496,7 +496,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   score: 0
-  levels: []
+  levels:
+  - levelName: test
+    difficulty: 0
+    backgroundMusic: {fileID: 0}
+    beatmap: {fileID: 0}
+    beats: []
+    backgroundImage: {fileID: 0}
 --- !u!4 &1028241051
 Transform:
   m_ObjectHideFlags: 0

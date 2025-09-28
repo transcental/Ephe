@@ -12,12 +12,13 @@ public class levelSelectMenuUI : MonoBehaviour {
         {
             VisualElement clonedElement = levelTemplate.CloneTree();
             ListView container = selectMenu.rootVisualElement.Q<ListView>("LevelSelectList");
+            Debug.Log(container);
             Button button = clonedElement.Q<Button>();
-                if (button != null)
+            if (button != null)
             {
                 button.text = gameManager.GetComponent<GameManager>().levels[i].levelName;
                 button.clicked += () => switchLevel(i);
-                container.Add(button);
+                container.hierarchy.Add(button);
             }
 
         }
@@ -25,7 +26,7 @@ public class levelSelectMenuUI : MonoBehaviour {
     }
 
     private void switchLevel(int level) {
-        Debug.Log("Summoning the Game Manager to switch Scene");
-        gameManager.GetComponent<GameManager>().StartLevel(level);
+        Debug.Log($"Summoning the Game Manager to switch Scene to {level - 1}");
+        gameManager.GetComponent<GameManager>().StartLevel(level - 1);
     }
 }
