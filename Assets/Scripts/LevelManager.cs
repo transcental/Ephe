@@ -119,10 +119,10 @@ public class LevelManager : MonoBehaviour
         foreach (var beat in _beatmapData.beatmapData)
         {
             if (!_playing) yield break;
-            
-            if (TimeSpan.TryParse(beat.timestamp, out var beatTime))
+
+            if (float.TryParse(beat.timestamp, out var beatTime))
             {
-                var waitTime = (float)beatTime.TotalSeconds - _audioSource.time;
+                var waitTime = beatTime - _audioSource.time;
                 if (waitTime > 0)
                 {
                     yield return new WaitForSeconds(waitTime);

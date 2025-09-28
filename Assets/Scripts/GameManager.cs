@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -51,14 +52,33 @@ public class GameManager : MonoBehaviour
         }
 
         var level = levels[levelIndex];
-        // Load level data and initialize the game state
-        Debug.Log($"Starting level: {level.levelName} with difficulty {level.difficulty}");
-
-        SceneManager.LoadScene("Level");
-        Debug.Log("Scene loaded");
         
-        var levelManager = FindObjectOfType<LevelManager>();
+        StartCoroutine(LoadLevelAndSetup(level));
+    }
+    
+    private IEnumerator LoadLevelAndSetup(LevelData level)
+    {
+        var asyncOp = SceneManager.LoadSceneAsync("Level");
+        while (!asyncOp.isDone)
+            yield return null;
+
+        Debug.Log("Scene loaded");
+
+        var levelManagerGameObject = GameObject.Find("EventSystem");
+        if (levelManagerGameObject == null)
+        {
+            Debug.LogError("EventSystem not found in the scene.");
+            yield break;
+        }
+        var levelManager = levelManagerGameObject.GetComponent<LevelManager>();
+        if (levelManager == null)
+        {
+            Debug.LogError("LevelManager not found in the scene.");
+            yield break;
+        }
+        Debug.Log("GameManager: Found LevelManager.");
         levelManager.SetupLevel(level);
     }
     
 }
+
