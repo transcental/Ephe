@@ -1,0 +1,11 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label text="Ephe" style="-unity-text-align: upper-center; font-size: 45px;" />
+    <ui:VisualElement style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;">
+        <ui:Button text="Play" name="play" style="flex-direction: row; width: 50%; justify-content: flex-start; align-content: center; align-self: center; margin-top: 32px; margin-right: 32px; margin-bottom: 16px; margin-left: 32px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;" />
+        <ui:Button text="Quit" name="quit" style="align-content: center; align-self: center; width: 50%; margin-top: 16px; margin-right: 32px; margin-bottom: 16px; margin-left: 32px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;" />
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Toggle label="Mute Volume?" name="volume-mute" style="margin-top: 16px; margin-right: 32px; margin-bottom: 16px; margin-left: 32px; align-self: center; align-content: stretch; width: 523px; background-color: rgb(188, 188, 188); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; justify-content: center; padding-top: 2px; padding-right: 80px; padding-bottom: 2px; padding-left: 100px;" />
+            <ui:SliderInt label="Volume" value="50" high-value="100" name="volume-slider" style="width: 511px; align-self: center; align-content: center; background-color: rgb(188, 188, 188); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
