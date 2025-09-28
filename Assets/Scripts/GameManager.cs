@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [Serializable]
-public class BeatmapData
+public class BeatData
 {
     public Material material;
     public float rarity;
@@ -19,7 +19,7 @@ public class LevelData
     public int difficulty;
     public AudioClip backgroundMusic;
     public TextAsset beatmap;
-    public List<BeatmapData> beats;
+    public List<BeatData> beats;
     public Sprite backgroundImage;
 }
 
@@ -56,9 +56,9 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("Level");
         Debug.Log("Scene loaded");
-        // Additional initialization code here
         
-        
+        var levelManager = FindObjectOfType<LevelManager>();
+        levelManager.SetupLevel(level);
     }
     
 }
