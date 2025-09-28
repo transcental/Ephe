@@ -29,6 +29,6 @@ public class GameManager : MonoBehaviour
     public bool IsPaused { get { return isPaused; } }
     private bool isPlaying = false;
     public bool IsPlaying { get { return isPlaying; } }
-    [SerializeField] private List<LevelData> levels;
+    [SerializeField] public List<LevelData> levels;
     
 }
