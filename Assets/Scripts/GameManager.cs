@@ -25,10 +25,7 @@ public class LevelData
 public class GameManager : MonoBehaviour
 {
     public int score = 0;
-    private bool isPaused =  false;
-    public bool IsPaused { get { return isPaused; } }
-    private bool isPlaying = false;
-    public bool IsPlaying { get { return isPlaying; } }
+    public bool IsPaused { get; } = false;
+    public bool IsPlaying { get; } = false;
     [SerializeField] private List<LevelData> levels;
-    
 }
