@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
     
-    private void StartLevel(int levelIndex)
+    public void StartLevel(int levelIndex)
     {
         if (levelIndex < 0 || levelIndex >= levels.Count)
         {
@@ -60,10 +60,5 @@ public class GameManager : MonoBehaviour
         
         
     }
-    private bool isPaused =  false;
-    public bool IsPaused { get { return isPaused; } }
-    private bool isPlaying = false;
-    public bool IsPlaying { get { return isPlaying; } }
-    [SerializeField] public List<LevelData> levels;
     
 }
