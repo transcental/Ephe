@@ -101,7 +101,6 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Updating");
         if (!_playing && !_gameManager.IsPaused) { return; }
         if (!_hasStartedLevel)
         {
@@ -113,7 +112,7 @@ public class LevelManager : MonoBehaviour
     private void StartLevelPlay()
     {
         if (!_song || !_audioSource) return;
-
+        Debug.Log("Staring play");
         _audioSource.clip = _song;
         _audioSource.Play();
         _gameManager.IsPlaying = true;
@@ -121,21 +120,24 @@ public class LevelManager : MonoBehaviour
 
         StartCoroutine(SpawnBeats());
     }
-    
+
     private System.Collections.IEnumerator SpawnBeats()
     {
+        Debug.Log("LevelManager: Starting beat spawn coroutine...");
         foreach (var beat in _beatmapData.beatmapData)
         {
             if (!_playing) yield break;
+            Debug.Log("LevelManager: Processing beat...");
 
             if (float.TryParse(beat.timestamp, out var beatTime))
             {
-                var waitTime = beatTime - _audioSource.time;
+                var waitTime = (beatTime / 1000) - _audioSource.time;
+                Debug.Log($"LevelManager: Waiting for {waitTime} seconds to spawn beat.");
                 if (waitTime > 0)
                 {
                     yield return new WaitForSeconds(waitTime);
                 }
-
+                Debug.Log("LevelManager: Spawning beat...");
                 SpawnBeat(beat);
             }
             else
@@ -148,30 +150,39 @@ public class LevelManager : MonoBehaviour
     private void SpawnBeat(BeatmapDataItem beat)
     {
         Debug.Log("LevelManager: Spawning beat...");
-        GameObject spawner = beat.type == "top" ? topBeatSpawner : bottomBeatSpawner;
-        GameObject cannon = beat.type == "top" ? topCannon : bottomCannon;
+        var spawner = beat.direction == "right" ? topBeatSpawner : bottomBeatSpawner;
 
-        if (spawner == null || cannon == null)
+        if (!spawner)
         {
-            Debug.LogError("LevelManager: Spawner or Cannon is null.");
+            Debug.LogError("LevelManager: Spawner is null.");
             return;
         }
+        
+        var totalProbability = _beats.Sum(b => b.rarity);
 
-        var beatData = _beats.FirstOrDefault(b => b.damaging && beat.direction == "left") ??
-                       _beats.FirstOrDefault(b => b.healing && beat.direction == "right");
+        var randomValue = UnityEngine.Random.Range(0f, totalProbability);
 
-        if (beatData == null)
+        var cumulative = 0f;
+        BeatData selectedBeat = null;
+        foreach (var b in _beats)
         {
-            Debug.LogError("LevelManager: No matching BeatData found.");
-            return;
+            cumulative += b.rarity;
+            if (randomValue <= cumulative)
+            {
+                selectedBeat = b;
+                break;
+            }
         }
+
+        var selectedBeatMaterial = selectedBeat?.material;
 
         var beatObject = Instantiate(spawner, spawner.transform.position, spawner.transform.rotation);
+        Debug.Log("LevelManager: Instantiated beat...");
 
         var beatRenderer = beatObject.GetComponent<Renderer>();
         if (beatRenderer)
         {
-            beatRenderer.material = beatData.material;
+            beatRenderer.material = selectedBeatMaterial;
         }
         else
         {

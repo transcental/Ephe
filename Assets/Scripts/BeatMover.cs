@@ -4,30 +4,31 @@ public class BeatMover : MonoBehaviour
 {
     public float speed = 5f;
     public string direction;
-    private float songEndTime;
+    private float _songEndTime;
 
     public void Init(string dir, float songLength)
     {
         direction = dir;
-        songEndTime = Time.time + songLength;
+        _songEndTime = Time.time + songLength;
     }
 
-    void Update()
+    private void Update()
     {
-        if (Time.time > songEndTime)
+        if (Time.time > _songEndTime)
         {
             Destroy(gameObject);
             return;
         }
 
-        Vector3 moveDir = direction == "left" ? Vector3.left : Vector3.right;
+        var moveDir = direction == "left" ? Vector3.left : Vector3.right;
         transform.position += moveDir * (speed * Time.deltaTime);
+        Debug.Log(direction);
 
-        // Destroy if off screen
-        Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
-        if (viewportPos.x < 0f || viewportPos.x > 1f)
+        
+        var viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+        if (viewportPos.x is < 0f or > 1f)
         {
-            Destroy(gameObject);
+        //    Destroy(gameObject);
         }
     }
 }
