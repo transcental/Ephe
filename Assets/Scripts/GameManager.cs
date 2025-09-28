@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 {
     public int score = 0;
     public bool IsPaused { get; } = false;
-    public bool IsPlaying { get; } = false;
+    public bool IsPlaying { get; set; } = false;
     [SerializeField] public List<LevelData> levels;
 
     private void Awake()
